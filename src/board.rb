@@ -9,9 +9,9 @@ class Board
   BOMB = :bomb
   DEFAULT_CELL_VALUE = 0
 
-  def initialize(i_index, j_index)
-    @x_dimension = i_index
-    @y_dimension = j_index
+  def initialize(x_dimension, y_dimension)
+    @x_dimension = x_dimension
+    @y_dimension = y_dimension
     @matrix = create_empty_matrix
   end
 
@@ -22,6 +22,8 @@ class Board
   end
 
   def out_of_bounds?(i_index, j_index)
+    return true if i_index < 0 || j_index < 0
+
     !(matrix[i_index] && matrix[i_index][j_index])
   end
 
@@ -82,24 +84,26 @@ class Board
   # | h | 0 | d |
   # | g | f | e |
 
-  #        j_index-1
-  #         |
+  #           j_index-1
+  #               |
   # i_index-1 <-- 0 --> i_index+1
-  #         |
-  #        j_index+1
+  #               |
+  #           j_index+1
 
-  # TODO: Add unit tests for this
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def adjacent_cells(i_index, j_index)
+    return [] if out_of_bounds?(i_index, j_index)
+
     cells = [
-      [i_index - 1, i_index - 1], # a
-      [i_index, i_index - 1], # b
-      [i_index + 1, i_index - 1], # c
-      [i_index + 1, i_index], # d
-      [i_index + 1, i_index + 1], # e
-      [i_index, i_index + 1], # f
-      [i_index - 1, i_index + 1], # g
-      [i_index - 1, i_index] # h
+      [i_index - 1, j_index - 1], # a
+      [i_index - 1, j_index], # b
+      [i_index - 1, j_index + 1], # c
+      [i_index, j_index + 1], # d
+      [i_index + 1, j_index + 1], # e
+      [i_index + 1, j_index], # f
+      [i_index + 1, j_index - 1], # g
+      [i_index, j_index - 1] # h
     ]
     cells.reject do |pair|
       i_index, j_index = pair
@@ -107,6 +111,7 @@ class Board
     end
   end
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   private
 
