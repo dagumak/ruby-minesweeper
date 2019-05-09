@@ -1,6 +1,6 @@
 Dir[File.join(__dir__, 'game_mode_strategies', '*.rb')].each { |file| require file }
 
-class GameMode
+class GameModeFactory
   attr_accessor :board
   attr_accessor :game_mode
 
