@@ -23,3 +23,6 @@ $ rspec
 ```bash
 $ rubocop src/ --auto-correct
 ```
+
+# Terminology
+In the Board class, you will notice that I use the terminology `indices` instead of `coordinates`. `Indices` are array indices, so they start from 0. On the other hand, coordinates start at 1 and the terminology `coordinates` is only used in the Minesweeper class which is the actual game.
