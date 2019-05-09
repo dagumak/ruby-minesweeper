@@ -16,7 +16,7 @@ class Minesweeper
         :loss
     ]
 
-    def initialize(board_size, difficulty_level = nil, game_mode = nil)        
+    def initialize(board_size, difficulty_level = BoardPopulator::DEFAULT_DIFFICULTY_LEVEL, game_mode = GameMode::DEFAULT_MODE)        
         create_board(board_size, difficulty_level)
         set_game_mode_strategy(game_mode)
     end

@@ -1,13 +1,14 @@
+require 'awesome_print'
 class Board
     attr_accessor :matrix
-    attr_accessor :x
-    attr_accessor :y
+    attr_accessor :x_dimension
+    attr_accessor :y_dimension
 
     BOMB = :bomb
 
     def initialize(x, y)
-        @x = x
-        @y = y
+        @x_dimension = x
+        @y_dimension = y
         @matrix = create_empty_matrix
     end
 
@@ -24,16 +25,15 @@ class Board
     end
 
     def create_empty_matrix
-        Array.new(x, 0) { Array.new(y, 0) }
+        Array.new(x_dimension, 0) { Array.new(y_dimension, 0) }
     end
 
     def dimensions
-        [x, y]
+        [x_dimension, y_dimension]
     end
 
     def cell_count
-        x, y = dimensions
-        x * y
+        x_dimension * y_dimension
     end
 
     def set_cell_as_bomb(x, y)
@@ -49,21 +49,16 @@ class Board
     end
 
     def has_bombs?
-        bomb_count == 0 
+        bomb_count > 0 
     end
 
     def bomb_count
-        matrix.each do |row|
-            row.each do |column|
-                puts column  
-            end
-        end
+        matrix.reduce(0) { |sum, row| row.select{ |item| item == BOMB }.count }
     end
 
     def populate_adjacent_numbers
-        matrix.each do |x|
-            puts x
-            x.each do |y|
+        matrix.each_with_index do |row, x|
+            row.each_with_index do |row, y|
                 # iterate through each cell
                 if is_cell_a_bomb?(x, y)
                     adjacent_cells(x, y).each do |pair|
@@ -103,7 +98,7 @@ class Board
         ]
         cells.select do |pair| 
             x, y = pair
-            out_of_bounds?(x, y)
+            !out_of_bounds?(x, y)
         end
     end
 

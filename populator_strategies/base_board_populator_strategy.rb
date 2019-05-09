@@ -13,7 +13,7 @@ class BaseBoardPopulatorStrategy
         raise BoardAlreadyPopulated if board.has_bombs?
         
         x_dimension, y_dimension = board.dimensions
-        
+
         while number_of_bombs != board.bomb_count do        
             x = rand(x_dimension)
             y = rand(y_dimension)
