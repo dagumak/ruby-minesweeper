@@ -14,12 +14,7 @@ class BoardPopulator
     @board = board
   end
 
-  def populate_by_difficulty_level(difficulty_level = DEFAULT_DIFFICULTY_LEVEL)
-    strategy.get_strategy_by_difficulty_level(difficulty_level)
-    strategy.populate
-  end
-
-  def get_strategy_by_difficulty_level(difficulty_level)
+  def get_strategy_by_difficulty_level(difficulty_level = DEFAULT_DIFFICULTY_LEVEL)
     case difficulty_level
     when :easy
       EasyBoardPopulatorStrategy.new(board)

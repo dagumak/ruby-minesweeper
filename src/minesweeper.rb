@@ -33,8 +33,8 @@ class Minesweeper
   def attempt(x, y)
     # check if x and y is within the bounds of the matrix
     begin
-      strategy.attempt(x, y)
-    rescue BombFound
+      game_mode_strategy.attempt(x, y)
+    rescue FoundBomb
       puts 'BOOOOM!'
     # set game status to :loss
     rescue OutOfBoardBounds
@@ -52,7 +52,8 @@ class Minesweeper
   def create_board(board_size, difficulty_level)
     empty_board = Board.new(board_size, board_size)
     board_populator = BoardPopulator.new(empty_board)
-    @board = board_populator.populate_by_difficulty_level(difficulty_level)
+    strategy = board_populator.get_strategy_by_difficulty_level(difficulty_level)
+    @board = strategy.populate
   end
 
   def output_by_status
@@ -61,6 +62,6 @@ class Minesweeper
   end
 
   def set_game_mode_strategy(game_mode)
-    @game_mode_strategy = GameMode.new(board, game_mode)
+    @game_mode_strategy = GameMode.new(board, game_mode).get_strategy
   end
 end
