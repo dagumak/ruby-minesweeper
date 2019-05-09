@@ -9,11 +9,6 @@ end
 class BoardPopulator
   attr_accessor :board
   DEFAULT_DIFFICULTY_LEVEL = :easy
-  DIFFICULTY_LEVELS = [
-    DEFAULT_DIFFICULTY_LEVEL,
-    :medium,
-    :hard
-  ].freeze
 
   def initialize(board)
     @board = board

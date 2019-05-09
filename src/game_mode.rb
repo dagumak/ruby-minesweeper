@@ -2,12 +2,9 @@ Dir[File.join(__dir__, 'game_mode_strategies', '*.rb')].each { |file| require fi
 
 class GameMode
   attr_accessor :board
+  attr_accessor :game_mode
 
   DEFAULT_MODE = :normal
-  MODES = [
-    DEFAULT_MODE,
-    :god
-  ].freeze
 
   def initialize(board, game_mode = DEFAULT_MODE)
     @board = board
