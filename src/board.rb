@@ -63,7 +63,8 @@ class Board
 
   def populate_adjacent_numbers
     matrix.each_with_index do |row, i_index|
-      row.each do |j_index|
+      row.each_with_index do |cell_value, j_index|
+        next if out_of_bounds?(i_index, j_index)
         next unless cell_a_bomb?(i_index, j_index)
 
         adjacent_cells(i_index, j_index).each do |pair|

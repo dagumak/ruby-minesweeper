@@ -77,4 +77,25 @@ RSpec.describe Board do
             )
         end
     end
+
+    context "#populate_adjacent_numbers" do
+        it "should correctly populate all the bomb-adjacent-numbers" do
+            expected = [
+                [:bomb, 1, 0, 0, 0],
+                [1, 1, 0, 1, 1],
+                [0, 0, 0, 1, :bomb],
+                [0, 1, 2, 4, 3],
+                [0, 1, :bomb, :bomb, :bomb]
+            ]
+
+            board = Board.new(5, 5)
+            board.set_cell_as_bomb(0,0)
+            board.set_cell_as_bomb(2,4)
+            board.set_cell_as_bomb(4,2)
+            board.set_cell_as_bomb(4,3)
+            board.set_cell_as_bomb(4,4)
+            board.populate_adjacent_numbers
+            expect(board.matrix).to eq(expected)
+        end
+    end
 end
