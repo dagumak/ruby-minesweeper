@@ -1,7 +1,7 @@
 require 'aasm'
-require "board.rb"
-require 'game_mode'
-require 'board_populator'
+require "#{__dir__}/board.rb"
+require "#{__dir__}/game_mode"
+require "#{__dir__}/board_populator"
 
 class Minesweeper
     include AASM
