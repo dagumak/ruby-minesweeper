@@ -8,3 +8,5 @@ gem 'awesome_print'
 gem 'aasm'
 gem 'byebug'
 gem 'rspec'
+gem 'rubocop', require: false
+gem 'rubocop-performance'

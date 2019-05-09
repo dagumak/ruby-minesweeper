@@ -2,6 +2,7 @@
 
 ## How to play?
 
+
 ## Adding Additional Difficulties
 Currently there are only 3 difficulties: easy, medium, and hard
 
@@ -12,3 +13,13 @@ If you wanted to add additional difficulties, you could create a new strategy an
 ## Adding Additional Game Modes
 
 Let's say we want to just disable bomb detonation, we can add a strategy pattern called `GodGameModeStrategy` that will essentially always allow us to win because we can't lose.
+
+## Running tests
+```bash
+$ rspec
+```
+
+## Running the linter
+```bash
+$ rubocop src/ --auto-correct
+```
