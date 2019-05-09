@@ -1,14 +1,9 @@
-class HardBoardPopulatorStrategy
-    attr_accessor :board
+require "#{__dir__}/base_board_populator_strategy"
+
+class HardBoardPopulatorStrategy < BaseBoardPopulatorStrategy
     PERCENTAGE_OF_BOMBS = 0.90
 
-    def initialize(board)
-        @board = board
+    def number_of_bombs
+        board.cell_count * PERCENTAGE_OF_BOMBS
     end
-        
-    def populate
-        # TODO: Check if board is empty before populating
-        # populate the board with mines based on the difficulty
-        return board
-    end    
 end
