@@ -11,20 +11,20 @@ RSpec.describe Board do
     end
     
     context "#out_of_bounds?" do
-        it "should return true when given indices outside of the matrix" do
+        it "should return true when given indices outside of the data matrix" do
             x_dimension = 1
             y_dimension = 2
             board = Board.new(x_dimension, y_dimension)
             expect(board.out_of_bounds?(x_dimension+1, y_dimension)).to be_truthy
         end
-        it "should return true when given negative indices outside of the matrix" do
+        it "should return true when given negative indices outside of the data matrix" do
             x_dimension = 1
             y_dimension = 2
             board = Board.new(x_dimension, y_dimension)
             expect(board.out_of_bounds?(-1, -1)).to be_truthy
         end
        
-        it "should return false when given indices inside of the matrix" do
+        it "should return false when given indices inside of the data matrix" do
             x_dimension = 1
             y_dimension = 2
             board = Board.new(x_dimension, y_dimension)
@@ -33,7 +33,7 @@ RSpec.describe Board do
     end
     
     context "#cell_count?" do
-        it "should return true when given indices out side of the matrix" do
+        it "should return true when given indices out side of the data matrix" do
             x_dimension = 1
             y_dimension = 2
             board = Board.new(x_dimension, y_dimension)
@@ -111,7 +111,7 @@ RSpec.describe Board do
 
             board = Board.new(2, 2)
             board.set_cell_as_bomb(1,1)
-            expect(board.matrix).to eq(expected)
+            expect(board.data_matrix).to eq(expected)
         end
     end
      
@@ -176,7 +176,7 @@ RSpec.describe Board do
             board.set_cell_as_bomb(4,3)
             board.set_cell_as_bomb(4,4)
             board.populate_adjacent_numbers
-            expect(board.matrix).to eq(expected)
+            expect(board.data_matrix).to eq(expected)
         end
     end
 end

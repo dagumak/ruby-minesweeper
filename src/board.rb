@@ -1,8 +1,13 @@
-# This class is used to manage the Minesweeper matrix.
+# This class is used to manage the Minesweeper data_matrix.
 # Setting the bombs are decided by the caller, but this class knows how to
-# fill the matrix with the proper bomb-adjacent-numbers
+# fill the data_matrix with the proper bomb-adjacent-numbers
+# There are 2 matrices: Data and View
+# The data one is where all the adjacent numbers and bombs reside whereas the 
+# view just represents the user's interaction. This doubles the space complexity
+# in favor of separation of responsibilities.
 class Board
-  attr_accessor :matrix
+  attr_accessor :data_matrix
+  attr_accessor :view_matrix
   attr_accessor :x_dimension
   attr_accessor :y_dimension
 
@@ -12,19 +17,20 @@ class Board
   def initialize(x_dimension, y_dimension)
     @x_dimension = x_dimension
     @y_dimension = y_dimension
-    @matrix = create_empty_matrix
+    @data_matrix = create_empty_matrix
+    @view_matrix = create_empty_matrix
   end
 
   def cell_value(i_index, j_index)
     raise OutOfBoardBounds if out_of_bounds?(i_index, j_index)
 
-    matrix[i_index][j_index]
+    data_matrix[i_index][j_index]
   end
 
   def out_of_bounds?(i_index, j_index)
     return true if i_index < 0 || j_index < 0
 
-    !(matrix[i_index] && matrix[i_index][j_index])
+    !(data_matrix[i_index] && data_matrix[i_index][j_index])
   end
 
   def create_empty_matrix
@@ -42,15 +48,11 @@ class Board
   end
 
   def set_cell_as_bomb(i_index, j_index)
-    matrix[i_index][j_index] = BOMB
+    data_matrix[i_index][j_index] = BOMB
   end
 
-  #   def is_cell_empty?(i_index, j_index)
-  #     matrix[i_index][j_index] == DEFAULT_CELL_VALUE
-  #   end
-
   def cell_a_bomb?(i_index, j_index)
-    matrix[i_index][j_index] == BOMB
+    data_matrix[i_index][j_index] == BOMB
   end
 
   def bombs?
@@ -58,11 +60,11 @@ class Board
   end
 
   def bomb_count
-    matrix.reduce(0) { |sum, row| sum + row.select { |item| item == BOMB }.count }
+    data_matrix.reduce(0) { |sum, row| sum + row.select { |item| item == BOMB }.count }
   end
 
   def populate_adjacent_numbers
-    matrix.each_with_index do |row, i_index|
+    data_matrix.each_with_index do |row, i_index|
       row.each_with_index do |cell_value, j_index|
         next if out_of_bounds?(i_index, j_index)
         next unless cell_a_bomb?(i_index, j_index)
@@ -117,7 +119,7 @@ class Board
   private
 
   def increase_adjacent_cells_count(i_index, j_index)
-    matrix[i_index][j_index] = matrix[i_index][j_index] + 1
+    data_matrix[i_index][j_index] = data_matrix[i_index][j_index] + 1
   end
 end
 
