@@ -38,8 +38,7 @@ class Minesweeper
             puts "BOOOOM!"
             # set game status to :loss
         rescue OutOfBoardBounds
-            puts "Invalid coordinate!"
-            
+            puts "Invalid coordinate!"            
         end
         output_by_status
     end
@@ -74,9 +73,9 @@ class Minesweeper
     def set_game_mode_strategy(game_mode)
         case game_mode
         when :normal
-            @game_mode_strategy = SimpleGameModeStrategy.new(board)
-        else
             @game_mode_strategy = NormalGameModeStrategy.new(board)
+        else
+            @game_mode_strategy = GodGameModeStrategy.new(board)
         end
     end
 
@@ -159,10 +158,10 @@ end
 
 # Strategy Pattern?
 
-# Simple Engine 
+# Normal Game Mode 
 # This version will only check the adjacent mines of (x, y) pair and return the number
 # of bombs adjacent
-class SimpleGameModeStrategy
+class NormalGameModeStrategy
     attr_accessor :board
     
     def initialize(board)
@@ -170,7 +169,7 @@ class SimpleGameModeStrategy
     end
 
     def attempt(x, y)
-        board.get_value(x, y)
+        cell_value = board.get_value(x, y)
         get_adjacent_mine_count(x, y)
     end
 
@@ -190,10 +189,9 @@ class SimpleGameModeStrategy
     end
 end
 
-# Normal Engine
-# This version will give all
-# of bombs adjacent
-class NormalGameModeStrategy
+# God Game Mode Engine
+# This version will disable bomb detonations eventually allowing you to always win.
+class GodGameModeStrategy
     attr_accessor :board
     
     def initialize(board)
@@ -205,7 +203,17 @@ class NormalGameModeStrategy
     end
 
     def get_adjacent_mine_count(x, y)
-        #
+        if revealed 
+            return
+        elsif bomb 
+            reveal self
+        elsif empty
+            reveal all neighbors
+            push neighbors onto stack
+        elsif number
+            reveal self
+            return     
+        end
 
     end
 end
