@@ -66,15 +66,59 @@ RSpec.describe Board do
     end
     
     context "#adjacent_cells" do
-        it "should return an array of adjacent cells that are not out of bounds in the negative region" do
+        it "should return an array of all adjacent cells" do
             x_dimension = 10
             y_dimension = 10
             board = Board.new(x_dimension, y_dimension)
-            expect(board.adjacent_cells(0, 0)).to(
+            expect(board.adjacent_cells(4, 4)).to(
                 eq([
-                    [0,1],
-                    [1,1],
-                    [1,0]
+                    [3,3],
+                    [3,4],
+                    [3,5],
+                    [4,5],
+                    [5,5],
+                    [5,4],
+                    [5,3],
+                    [4,3]
+                ])
+            )
+        end
+
+        it "should return an array of all adjacent cells if center is a bomb cell" do
+            x_dimension = 10
+            y_dimension = 10
+            pair = [4, 4]
+            board = Board.new(x_dimension, y_dimension)
+            board.set_cell_as_bomb(*pair)
+            expect(board.adjacent_cells(*pair)).to(
+                eq([
+                    [3,3],
+                    [3,4],
+                    [3,5],
+                    [4,5],
+                    [5,5],
+                    [5,4],
+                    [5,3],
+                    [4,3]
+                ])
+            )
+        end
+
+        it "should return an array of all adjacent cells even if they are a bomb cell" do
+            x_dimension = 10
+            y_dimension = 10
+            board = Board.new(x_dimension, y_dimension)
+            board.set_cell_as_bomb(3, 3)
+            expect(board.adjacent_cells(4,4)).to(
+                eq([
+                    [3,3],
+                    [3,4],
+                    [3,5],
+                    [4,5],
+                    [5,5],
+                    [5,4],
+                    [5,3],
+                    [4,3]
                 ])
             )
         end
