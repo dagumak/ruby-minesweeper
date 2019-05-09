@@ -10,14 +10,14 @@ class BaseBoardPopulatorStrategy
   end
 
   def populate
-    raise BoardAlreadyPopulated if board.has_bombs?
+    raise BoardAlreadyPopulated if board.bombs?
 
     x_dimension, y_dimension = board.dimensions
 
     while number_of_bombs != board.bomb_count
       x = rand(x_dimension)
       y = rand(y_dimension)
-      board.set_cell_as_bomb(x, y) unless board.is_cell_a_bomb?(x, y)
+      board.set_cell_as_bomb(x, y) unless board.cell_a_bomb?(x, y)
     end
 
     board.populate_adjacent_numbers
