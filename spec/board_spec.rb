@@ -41,6 +41,30 @@ RSpec.describe Board do
         end
     end
     
+    context "#cell_value" do
+        it "should return the value based on the indices given" do
+            x_dimension = 2
+            y_dimension = 2
+            board = Board.new(2, 2)
+            board.set_cell_as_bomb(0,0)
+            board.populate_adjacent_numbers
+            expect(board.cell_value(1, 1)).to eq(1)
+        end
+
+        it "should return the bomb in the cell value" do
+            board = Board.new(1, 2)
+            board.set_cell_as_bomb(0,0)
+            expect(board.cell_value(0, 0)).to eq(Board::BOMB)
+        end
+
+        it "should raise 'OutOfBoardBounds' if attempting to get a value out side of the board" do
+            board = Board.new(1, 2)
+            expect {
+                board.cell_value(10, 10)
+            }.to raise_error(OutOfBoardBounds)
+        end
+    end
+    
     context "#adjacent_cells" do
         it "should return an array of adjacent cells that are not out of bounds in the negative region" do
             x_dimension = 10
