@@ -1,4 +1,6 @@
-require 'awesome_print'
+# This class is used to manage the Minesweeper matrix.
+# Setting the bombs are decided by the caller, but this class knows how to
+# fill the matrix with the proper bomb-adjacent-numbers
 class Board
   attr_accessor :matrix
   attr_accessor :x_dimension
@@ -7,26 +9,26 @@ class Board
   BOMB = :bomb
   DEFAULT_CELL_VALUE = 0
 
-  def initialize(x, y)
-    @x_dimension = x
-    @y_dimension = y
+  def initialize(i_index, j_index)
+    @x_dimension = i_index
+    @y_dimension = j_index
     @matrix = create_empty_matrix
   end
 
-  def cell_value(x, y)
-    if out_of_bounds?(x, y)
-      raise OutOfBoardBounds
-    else
-      matrix[x][y]
-    end
+  def cell_value(i_index, j_index)
+    raise OutOfBoardBounds if out_of_bounds?(i_index, j_index)
+
+    matrix[i_index][j_index]
   end
 
-  def out_of_bounds?(x, y)
-    !(matrix[x] && matrix[x][y])
+  def out_of_bounds?(i_index, j_index)
+    !(matrix[i_index] && matrix[i_index][j_index])
   end
 
   def create_empty_matrix
-    Array.new(x_dimension, DEFAULT_CELL_VALUE) { Array.new(y_dimension, DEFAULT_CELL_VALUE) }
+    Array.new(x_dimension, DEFAULT_CELL_VALUE) do
+      Array.new(y_dimension, DEFAULT_CELL_VALUE)
+    end
   end
 
   def dimensions
@@ -37,19 +39,19 @@ class Board
     x_dimension * y_dimension
   end
 
-  def set_cell_as_bomb(x, y)
-    matrix[x][y] = BOMB
+  def set_cell_as_bomb(i_index, j_index)
+    matrix[i_index][j_index] = BOMB
   end
 
-  def is_cell_empty?(x, y)
-    matrix[x][y] == DEFAULT_CELL_VALUE
+  #   def is_cell_empty?(i_index, j_index)
+  #     matrix[i_index][j_index] == DEFAULT_CELL_VALUE
+  #   end
+
+  def cell_a_bomb?(i_index, j_index)
+    matrix[i_index][j_index] == BOMB
   end
 
-  def is_cell_a_bomb?(x, y)
-    matrix[x][y] == BOMB
-  end
-
-  def has_bombs?
+  def bombs?
     bomb_count > 0
   end
 
@@ -58,16 +60,15 @@ class Board
   end
 
   def populate_adjacent_numbers
-    matrix.each_with_index do |row, x|
-      row.each do |y|
-        # iterate through each cell
-        next unless is_cell_a_bomb?(x, y)
+    matrix.each_with_index do |row, i_index|
+      row.each do |j_index|
+        next unless cell_a_bomb?(i_index, j_index)
 
-        adjacent_cells(x, y).each do |pair|
-          x, y = pair
-          next if is_cell_a_bomb?(x, y)
+        adjacent_cells(i_index, j_index).each do |pair|
+          i_index, j_index = pair
+          next if cell_a_bomb?(i_index, j_index)
 
-          increase_adjacent_cells_count(x, y)
+          increase_adjacent_cells_count(i_index, j_index)
         end
       end
     end
@@ -81,34 +82,36 @@ class Board
   # | h | 0 | d |
   # | g | f | e |
 
-  #        y-1
+  #        j_index-1
   #         |
-  # x-1 <-- 0 --> x+1
+  # i_index-1 <-- 0 --> i_index+1
   #         |
-  #        y+1
+  #        j_index+1
 
   # TODO: Add unit tests for this
-  def adjacent_cells(x, y)
+  # rubocop:disable Metrics/MethodLength
+  def adjacent_cells(i_index, j_index)
     cells = [
-      [x - 1, x - 1], # a
-      [x, x - 1], # b
-      [x + 1, x - 1], # c
-      [x + 1, x], # d
-      [x + 1, x + 1], # e
-      [x, x + 1], # f
-      [x - 1, x + 1], # g
-      [x - 1, x] # h
+      [i_index - 1, i_index - 1], # a
+      [i_index, i_index - 1], # b
+      [i_index + 1, i_index - 1], # c
+      [i_index + 1, i_index], # d
+      [i_index + 1, i_index + 1], # e
+      [i_index, i_index + 1], # f
+      [i_index - 1, i_index + 1], # g
+      [i_index - 1, i_index] # h
     ]
     cells.reject do |pair|
-      x, y = pair
-      out_of_bounds?(x, y)
+      i_index, j_index = pair
+      out_of_bounds?(i_index, j_index)
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   private
 
-  def increase_adjacent_cells_count(x, y)
-    matrix[x][y] = matrix[x][y] + 1
+  def increase_adjacent_cells_count(i_index, j_index)
+    matrix[i_index][j_index] = matrix[i_index][j_index] + 1
   end
 end
 
