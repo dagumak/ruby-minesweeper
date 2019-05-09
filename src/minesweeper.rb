@@ -1,5 +1,5 @@
 require 'aasm'
-require "#{__dir__}/board.rb"
+require "#{__dir__}/board"
 require "#{__dir__}/game_mode"
 require "#{__dir__}/board_populator"
 
