@@ -9,7 +9,7 @@ class NormalGameModeStrategy
     end
 
     def attempt(x, y)
-        cell_value = board.get_value(x, y)
+        cell_value = board.cell_value(x, y)
         get_adjacent_mine_count(x, y)
     end
 

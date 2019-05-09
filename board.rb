@@ -1,30 +1,34 @@
 class Board
-    attr_accessor :board
+    attr_accessor :matrix
+    attr_accessor :x
+    attr_accessor :y
 
     BOMB = :bomb
 
-    def initialize(board_size)
-        @board = create_empty_board(board_size, board_size)
+    def initialize(x, y)
+        @x = x
+        @y = y
+        @matrix = create_empty_matrix
     end
 
-    def get_value(x, y)
+    def cell_value(x, y)
         if out_of_bounds?(x, y)
             raise OutOfBoardBounds
         else
-            return board[x][y]
+            return matrix[x][y]
         end
     end
     
     def out_of_bounds?(x, y)
-       !(board[x] && board[x][y])
+       !(matrix[x] && matrix[x][y])
     end
 
-    def create_empty_board(x, y)
+    def create_empty_matrix
         Array.new(x, 0) { Array.new(y, 0) }
     end
 
     def dimensions
-        board_size, board_size
+        [x, y]
     end
 
     def cell_count
@@ -33,15 +37,15 @@ class Board
     end
 
     def set_cell_as_bomb(x, y)
-        board[x][y] = BOMB
+        matrix[x][y] = BOMB
     end
 
     def is_cell_empty?(x, y)
-        board[x][y] == 0
+        matrix[x][y] == 0
     end
 
     def is_cell_a_bomb?(x, y)
-        board[x][y] == BOMB
+        matrix[x][y] == BOMB
     end
 
     def has_bombs?
@@ -49,7 +53,7 @@ class Board
     end
 
     def bomb_count
-        board.each do |row|
+        matrix.each do |row|
             row.each do |column|
                 puts column  
             end
@@ -57,8 +61,9 @@ class Board
     end
 
     def populate_adjacent_numbers
-        board.each do |x|
-            row.each do |y|
+        matrix.each do |x|
+            puts x
+            x.each do |y|
                 # iterate through each cell
                 if is_cell_a_bomb?(x, y)
                     adjacent_cells(x, y).each do |pair|
@@ -68,7 +73,6 @@ class Board
                 end
             end
         end
-        
     end
 
     # This is the position of the coordinates in the array.
@@ -106,7 +110,7 @@ class Board
     private
     def increase_adjacent_cells_count(x, y)
         return if is_cell_a_bomb?(x, y)
-        board[x][y]++
+        matrix[x][y] = matrix[x][y] + 1
     end
 end
 

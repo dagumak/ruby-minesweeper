@@ -1,4 +1,4 @@
-require 'board'
+require "board.rb"
 require 'game_mode'
 require 'board_populator'
 
@@ -41,7 +41,7 @@ class Minesweeper
 
     private
     def create_board(board_size, difficulty_level)
-        empty_board = Board.new(board_size)
+        empty_board = Board.new(board_size, board_size)
         board_populator = BoardPopulator.new(empty_board)
         @board = board_populator.populate_by_difficulty_level(difficulty_level)
     end
