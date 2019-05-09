@@ -1,0 +1,17 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    aasm (5.0.3)
+      concurrent-ruby (~> 1.0)
+    awesome_print (1.8.0)
+    concurrent-ruby (1.1.5)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  aasm
+  awesome_print
+
+BUNDLED WITH
+   2.0.1

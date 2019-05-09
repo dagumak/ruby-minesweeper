@@ -1,8 +1,11 @@
+require 'aasm'
 require "board.rb"
 require 'game_mode'
 require 'board_populator'
 
 class Minesweeper
+    include AASM
+
     attr_accessor :game_mode_strategy
     attr_accessor :board
     
