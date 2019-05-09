@@ -9,12 +9,17 @@ class Minesweeper
     attr_accessor :game_mode_strategy
     attr_accessor :board
     
-    # TODO: Use AASM to manage the states 
-    GAME_STATUSES = [
-        :in_progress,
-        :victory,
-        :loss
-    ]
+    aasm do
+        state :in_progress, initial: true
+
+        event :win do
+            transitions from: :in_progress, to: :victory
+        end
+
+        event :lose do
+            transitions from: :in_progress, to: :loss
+        end
+    end
 
     def initialize(board_size, difficulty_level = BoardPopulator::DEFAULT_DIFFICULTY_LEVEL, game_mode = GameMode::DEFAULT_MODE)        
         create_board(board_size, difficulty_level)
