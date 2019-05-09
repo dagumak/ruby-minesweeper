@@ -58,7 +58,7 @@ class Board
   end
 
   def bomb_count
-    matrix.reduce(0) { |_sum, row| row.select { |item| item == BOMB }.count }
+    matrix.reduce(0) { |sum, row| sum + row.select { |item| item == BOMB }.count }
   end
 
   def populate_adjacent_numbers

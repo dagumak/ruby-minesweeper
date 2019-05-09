@@ -77,6 +77,63 @@ RSpec.describe Board do
             )
         end
     end
+    
+    context "#set_cell_as_bomb" do
+        it "should set a bomb at the given index position" do
+            expected = [
+                [0, 0],
+                [0, :bomb]
+            ]
+
+            board = Board.new(2, 2)
+            board.set_cell_as_bomb(1,1)
+            expect(board.matrix).to eq(expected)
+        end
+    end
+     
+    context "#cell_a_bomb?" do
+        it "should return true if the cell is a bomb" do
+            board = Board.new(2, 2)
+            i_index = 1
+            j_index = 1
+            board.set_cell_as_bomb(i_index, j_index)
+            expect(board.cell_a_bomb?(i_index, j_index)).to be_truthy
+        end
+        
+        it "should return false if the cell is not a bomb" do
+            board = Board.new(2, 2)
+            i_index = 1
+            j_index = 1
+            expect(board.cell_a_bomb?(i_index, j_index)).to be_falsey
+        end
+    end
+
+    context "#bombs?" do
+        it "should return true if the board has bombs" do
+            board = Board.new(2, 2)
+            board.set_cell_as_bomb(1, 1)
+            expect(board.bombs?).to be_truthy
+        end
+        
+        it "should return false if the board does not have bombs" do
+            board = Board.new(2, 2)
+            expect(board.bombs?).to be_falsey
+        end
+    end
+
+    context "#bomb_count" do
+        it "should return 0 when there is no bombs on the board" do
+            board = Board.new(2, 2)
+            expect(board.bomb_count).to be_zero
+        end
+        
+        it "should return the bomb count if there are bombs set" do
+            board = Board.new(2, 2)
+            board.set_cell_as_bomb(1, 1)
+            board.set_cell_as_bomb(0, 1)
+            expect(board.bomb_count).to eq(2)
+        end
+    end
 
     context "#populate_adjacent_numbers" do
         it "should correctly populate all the bomb-adjacent-numbers" do
