@@ -5,6 +5,7 @@ class Board
     attr_accessor :y_dimension
 
     BOMB = :bomb
+    DEFAULT_CELL_VALUE = 0
 
     def initialize(x, y)
         @x_dimension = x
@@ -25,7 +26,7 @@ class Board
     end
 
     def create_empty_matrix
-        Array.new(x_dimension, 0) { Array.new(y_dimension, 0) }
+        Array.new(x_dimension, DEFAULT_CELL_VALUE) { Array.new(y_dimension, DEFAULT_CELL_VALUE) }
     end
 
     def dimensions
@@ -41,7 +42,7 @@ class Board
     end
 
     def is_cell_empty?(x, y)
-        matrix[x][y] == 0
+        matrix[x][y] == DEFAULT_CELL_VALUE
     end
 
     def is_cell_a_bomb?(x, y)
@@ -49,7 +50,7 @@ class Board
     end
 
     def has_bombs?
-        bomb_count > 0 
+        bomb_count > 0
     end
 
     def bomb_count
@@ -58,11 +59,12 @@ class Board
 
     def populate_adjacent_numbers
         matrix.each_with_index do |row, x|
-            row.each_with_index do |row, y|
+            row.each do |y|
                 # iterate through each cell
                 if is_cell_a_bomb?(x, y)
                     adjacent_cells(x, y).each do |pair|
                         x, y = pair
+                        next if is_cell_a_bomb?(x, y)
                         increase_adjacent_cells_count(x, y)
                     end
                 end
@@ -103,8 +105,7 @@ class Board
     end
 
     private
-    def increase_adjacent_cells_count(x, y)
-        return if is_cell_a_bomb?(x, y)
+    def increase_adjacent_cells_count(x, y)        
         matrix[x][y] = matrix[x][y] + 1
     end
 end
