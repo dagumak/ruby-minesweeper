@@ -17,11 +17,18 @@ RSpec.describe Board do
             board = Board.new(x_dimension, y_dimension)
             expect(board.out_of_bounds?(x_dimension+1, y_dimension)).to be_truthy
         end
+        
         it "should return true when given negative indices outside of the data matrix" do
             x_dimension = 1
             y_dimension = 2
             board = Board.new(x_dimension, y_dimension)
             expect(board.out_of_bounds?(-1, -1)).to be_truthy
+        end
+
+        it "should return true when given nil" do
+            board = Board.new(2, 2)
+            expect(board.out_of_bounds?(nil, 1)).to be_truthy
+            expect(board.out_of_bounds?(1, nil)).to be_truthy
         end
        
         it "should return false when given indices inside of the data matrix" do

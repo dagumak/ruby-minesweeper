@@ -28,6 +28,7 @@ class Board
   end
 
   def out_of_bounds?(i_index, j_index)
+    return true if i_index.nil? || j_index.nil?
     return true if i_index < 0 || j_index < 0
 
     !(data_matrix[i_index] && data_matrix[i_index][j_index])
