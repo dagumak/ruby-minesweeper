@@ -28,24 +28,34 @@ class Minesweeper
   end
 
   def initialize(
-    board_size, 
-    difficulty_level = BoardPopulatorFactory::DEFAULT_DIFFICULTY_LEVEL, 
+    board_size,
+    difficulty_level = BoardPopulatorFactory::DEFAULT_DIFFICULTY_LEVEL,
     game_mode = GameModeFactory::DEFAULT_MODE
   )
     create_board(board_size, difficulty_level)
     set_game_mode_strategy(game_mode)
   end
 
+  def attempt(x, y)
+    puts game_mode_strategy.attempt(x, y)
+    display
+  rescue FoundBomb
+    puts 'BOOOOM!'
+    display
+  rescue OutOfBoardBounds
+    puts 'Invalid coordinate!'
+  end
+
   def display(matrix = board.view_matrix)
-    matrix.each_with_index do |row, index|
+    matrix.each do |row|
       formatted_row_data = row.collect do |value|
         case value
         when Board::NOT_SEEN
-          "X".light_black
+          'X'.light_black
         when Board::BOMB
-          "💣".red
+          '💣'
         when 0
-          "X".light_black
+          'X'.light_black
         when 1
           value.to_s.light_yellow
         else
@@ -59,19 +69,6 @@ class Minesweeper
 
   def display_with_map_hack
     display(board.data_matrix)
-  end
-
-  def attempt(x, y)
-    # check if x and y is within the bounds of the matrix
-    begin
-      game_mode_strategy.attempt(x, y)
-    rescue FoundBomb
-      puts 'BOOOOM!'
-    # set game status to :loss
-    rescue OutOfBoardBounds
-      puts 'Invalid coordinate!'
-    end
-    output_by_status
   end
 
   def status
