@@ -1,7 +1,9 @@
+require 'colorize'
+require 'awesome_print'
 require 'aasm'
 require "#{__dir__}/board"
-require "#{__dir__}/game_mode"
-require "#{__dir__}/board_populator"
+require "#{__dir__}/game_mode_factory"
+require "#{__dir__}/board_populator_factory"
 
 class Minesweeper
   include AASM
@@ -21,13 +23,38 @@ class Minesweeper
     end
   end
 
-  def initialize(board_size, difficulty_level = BoardPopulator::DEFAULT_DIFFICULTY_LEVEL, game_mode = GameMode::DEFAULT_MODE)
+  def initialize(
+    board_size, 
+    difficulty_level = BoardPopulatorFactory::DEFAULT_DIFFICULTY_LEVEL, 
+    game_mode = GameModeFactory::DEFAULT_MODE
+  )
     create_board(board_size, difficulty_level)
     set_game_mode_strategy(game_mode)
   end
 
-  def display
-    # loop through the matrix and print out true or false
+  def display(matrix = board.view_matrix)
+    matrix.each_with_index do |row, index|
+      formatted_row_data = row.collect do |value|
+        case value
+        when Board::NOT_SEEN
+          "X".light_black
+        when Board::BOMB
+          "💣".red
+        when 0
+          "X".light_black
+        when 1
+          value.to_s.light_yellow
+        else
+          value.to_s.green
+        end
+      end
+      puts formatted_row_data.join('  ')
+    end
+    nil
+  end
+
+  def display_with_map_hack
+    display(board.data_matrix)
   end
 
   def attempt(x, y)
@@ -51,7 +78,7 @@ class Minesweeper
 
   def create_board(board_size, difficulty_level)
     empty_board = Board.new(board_size, board_size)
-    board_populator = BoardPopulator.new(empty_board)
+    board_populator = BoardPopulatorFactory.new(empty_board)
     strategy = board_populator.get_strategy_by_difficulty_level(difficulty_level)
     @board = strategy.populate
   end
@@ -62,6 +89,6 @@ class Minesweeper
   end
 
   def set_game_mode_strategy(game_mode)
-    @game_mode_strategy = GameMode.new(board, game_mode).get_strategy
+    @game_mode_strategy = GameModeFactory.new(board, game_mode).get_strategy
   end
 end

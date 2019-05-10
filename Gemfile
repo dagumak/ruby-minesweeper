@@ -10,3 +10,4 @@ gem 'byebug'
 gem 'rspec'
 gem 'rubocop', require: false
 gem 'rubocop-performance'
+gem 'colorize'
