@@ -138,5 +138,7 @@ $ rspec
 $ rubocop src/ --auto-correct
 ```
 
-## TODO - Features yet to be implemented
+## TODO 
 * Flags - diffusing bomb
+* Add tests for the game mode strategies
+* Add tests for board populating strategies
