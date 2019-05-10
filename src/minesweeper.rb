@@ -37,10 +37,9 @@ class Minesweeper
   end
 
   def attempt(x, y)
-    puts game_mode_strategy.attempt(x, y)
+    game_mode_strategy.attempt(x, y)
     display
-  rescue FoundBomb
-    puts 'BOOOOM!'
+  rescue FoundBomb    
     display
   rescue OutOfBoardBounds
     puts 'Invalid coordinate!'
@@ -82,11 +81,6 @@ class Minesweeper
     board_populator = BoardPopulatorFactory.new(empty_board)
     strategy = board_populator.get_strategy_by_difficulty_level(difficulty_level)
     @board = strategy.populate
-  end
-
-  def output_by_status
-    # get the status then
-    puts status
   end
 
   def set_game_mode_strategy(game_mode)

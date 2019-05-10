@@ -1,8 +1,6 @@
-require 'awesome_print'
-
 # Normal Game Mode
-# This version will only check the adjacent mines of (x, y) pair and return the number
-# of bombs adjacent
+# This version will reveal all neighboring empty cells until they find a number 
+# when an empty cell is selected.
 class NormalGameModeStrategy
   attr_accessor :board
   attr_accessor :stack
@@ -16,16 +14,21 @@ class NormalGameModeStrategy
     pair = coordinates_to_indices(x, y)
     stack.push(pair)
     process_pair(stack.pop) while stack.length.nonzero?
-
-    board.cell_value(*pair)
+    cell_value = board.cell_value(*pair)
+    puts cell_value
+    cell_value
   end
 
   def process_pair(index_pair)
     i_index, j_index = index_pair
-    cell_value = board.cell_value(i_index, j_index)
     board.mark_as_seen!(i_index, j_index)
-    raise FoundBomb if board.cell_a_bomb?(i_index, j_index)
+    
+    if board.cell_a_bomb?(i_index, j_index)
+      puts 'BOOOOM!' 
+      raise FoundBomb
+    end
 
+    cell_value = board.cell_value(i_index, j_index)
     if cell_value.zero?
       board.adjacent_cells(i_index, j_index).each do |pair|
         i_index, j_index = pair
