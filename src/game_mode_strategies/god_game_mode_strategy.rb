@@ -16,4 +16,8 @@ class GodGameModeStrategy < NormalGameModeStrategy
       end
     end
   end
+
+  def won?
+    board.unseen_cell_count.zero?
+  end
 end

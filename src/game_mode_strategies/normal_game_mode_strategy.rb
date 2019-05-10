@@ -1,3 +1,5 @@
+require 'colorize'
+
 # Normal Game Mode
 # This version will reveal all neighboring empty cells until they find a number 
 # when an empty cell is selected.
@@ -15,7 +17,6 @@ class NormalGameModeStrategy
     stack.push(pair)
     process_pair(stack.pop) while stack.length.nonzero?
     cell_value = board.cell_value(*pair)
-    puts cell_value
     cell_value
   end
 
@@ -23,7 +24,6 @@ class NormalGameModeStrategy
     board.mark_as_seen!(*index_pair)
     
     if board.cell_a_bomb?(*index_pair)
-      puts 'BOOOOM!' 
       raise FoundBomb
     end
 
@@ -39,6 +39,10 @@ class NormalGameModeStrategy
   # an index and starts from zero.
   def coordinates_to_indices(x, y)
     [x - 1, y - 1]
+  end
+
+  def won?
+    board.unseen_cell_count == board.bomb_count
   end
 end
 

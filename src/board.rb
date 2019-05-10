@@ -37,6 +37,10 @@ class Board
     view_matrix[i_index][j_index] == NOT_SEEN
   end
 
+  def unseen_cell_count
+    view_matrix.reduce(0) { |sum, row| sum + row.select { |item| item == NOT_SEEN }.count }
+  end
+
   def cell_value(i_index, j_index)
     raise OutOfBoardBounds if out_of_bounds?(i_index, j_index)
 

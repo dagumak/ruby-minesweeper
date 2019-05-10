@@ -17,6 +17,8 @@ class Minesweeper
 
   aasm do
     state :in_progress, initial: true
+    state :loss
+    state :victory
 
     event :win do
       transitions from: :in_progress, to: :victory
@@ -36,12 +38,17 @@ class Minesweeper
     set_game_mode_strategy(game_mode)
   end
 
+  # Feels more natural to have the arguments inverted. 
   def attempt(y, x)
-    # Feels more natural to have the arguments inverted.
+    return status unless self.in_progress?
     game_mode_strategy.attempt(x, y)
     display
+    self.win! if game_mode_strategy.won?
+    status
   rescue FoundBomb    
+    self.lose!
     display
+    status
   rescue OutOfBoardBounds
     puts 'Invalid coordinate!'
   end
@@ -72,7 +79,14 @@ class Minesweeper
   end
 
   def status
-    # TODO: Use AASM to manage the states
+    case self.aasm.current_state
+    when :loss
+      puts "Game over! Better luck next time!".red
+    when :victory
+      puts "Congratualations! You won!".green
+    when :in_progress
+      puts "Game isn't over yet, make your move!".yellow
+    end
   end
 
   private

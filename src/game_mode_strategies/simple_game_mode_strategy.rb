@@ -22,6 +22,10 @@ class SimpleGameModeStrategy
   def coordinates_to_indices(x, y)
     [x - 1, y - 1]
   end
+
+  def won?
+    board.unseen_cell_count == board.bomb_count
+  end
 end
 
 class FoundBomb < StandardError; end
