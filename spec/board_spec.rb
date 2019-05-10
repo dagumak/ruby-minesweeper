@@ -48,6 +48,23 @@ RSpec.describe Board do
     end
   end
 
+  context '#unseen_cell_count?' do
+    it 'should return 0 cells not seen' do
+      x_dimension = 1
+      y_dimension = 2
+      board = Board.new(x_dimension, y_dimension)
+      expect(board.unseen_cell_count).to eq(2)
+    end
+
+    it 'should return 1 cell not seen' do
+      x_dimension = 1
+      y_dimension = 2
+      board = Board.new(x_dimension, y_dimension)
+      board.mark_as_seen!(0,0)
+      expect(board.unseen_cell_count).to eq(1)
+    end
+  end
+
   context '#cell_value' do
     it 'should return the value based on the indices given' do
       x_dimension = 2
