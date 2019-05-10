@@ -6,6 +6,11 @@
 ![Winning](images/winning-example.png)
 ![Losing](images/losing-example.png)
 
+### Setting up
+```bash
+$ bundle install
+```
+
 ### Start the Game
 
 ```bash
