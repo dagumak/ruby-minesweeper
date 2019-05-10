@@ -22,6 +22,45 @@ irb(main) > game.display
 irb(main) > game.attempt(1, 1)
 ```
 
+### Selecting a Level of Difficulty
+Currently there are 4 difficulties: `easy`, `medium`, `hard`, and `dagumak`
+
+`Easy` has the least bombs randomly placed on the board.
+
+`Medium` is somewhere in between.
+
+`Hard` has the most bombs randomly placed on the board. 
+
+`dagumak` will always place the bombs in the same place.
+
+```ruby
+irb(main) > load './src/minesweeper.rb'
+irb(main) > game = Minesweeper.new(10, :easy)
+```
+
+![dagumak's Minesweeper](images/different-difficulties-minesweeper.png)
+
+
+### Selecting a Game Mode
+Currently there are 3 different game modes: `simple`, `normal`, and `god`
+
+`simple` 
+
+Unlike how the normal game behaves, when selecting an empty cell then it will not reveal the neibhoring empty cells.
+
+`normal` 
+
+Just normal. This is the default.
+
+`god`
+
+You're legendary, a god. Bombs don't affect you.
+
+```ruby
+irb(main) > load './src/minesweeper.rb'
+irb(main) > game = Minesweeper.new(10, :easy, :simple)
+```
+
 ## Fun Features
 
 #### Dagumak Level Difficulty
