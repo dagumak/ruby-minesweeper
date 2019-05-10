@@ -2,10 +2,10 @@ Dir[File.join(__dir__, 'populator_strategies', '*.rb')].each do |file|
   require file
 end
 
-# This class is for populating the boards for the Minesweeper game.
-# It has multiple strategies for populating the board with different amount
-# of bombs. Each strategy is currently determined by the difficulty level.
-# If one desires to, we can add a :heroic and :legendary difficulty level.
+# This class is factory collection of strategies available for bomb placement.
+# Currently, we have 3 difficulties which is easy, medium, and hard. There
+# is a strategy class for each of the difficulties and each strategy
+# understands how many bombs it has to place and sets it on the board.
 class BoardPopulatorFactory
   attr_accessor :board
   DEFAULT_DIFFICULTY_LEVEL = :easy

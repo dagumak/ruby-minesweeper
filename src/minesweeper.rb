@@ -5,6 +5,10 @@ require "#{__dir__}/board"
 require "#{__dir__}/game_mode_factory"
 require "#{__dir__}/board_populator_factory"
 
+# This class is for player interaction; the class displays the board to the
+# player, understands the current game state (ex, in progress, loss, or win),
+# and allows players to make a move. It's main function is to orchestrate other
+# classes to make a functional game.
 class Minesweeper
   include AASM
 

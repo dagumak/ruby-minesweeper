@@ -1,8 +1,11 @@
-# This class is used to manage the Minesweeper data_matrix.
-# Setting the bombs are decided by the caller, but this class knows how to
-# fill the data_matrix with the proper bomb-adjacent-numbers
+# This class is for managing the Minesweeper matrix itself. It understands how to
+# populate all the `bomb-adjacent-numbers`, but does not know where to places
+# the bombs; it knows how to surround bombs with numbers, but does not know where
+# to places the actual bombs itself. It relies on `BoardPopulatorFactory` for bomb
+# placement.
+#
 # There are 2 matrices: Data and View
-# The data one is where all the adjacent numbers and bombs reside whereas the 
+# The data one is where all the adjacent numbers and bombs reside whereas the
 # view just represents the user's interaction. This doubles the space complexity
 # in favor of separation of responsibilities.
 class Board
