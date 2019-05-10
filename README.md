@@ -131,14 +131,30 @@ All Populator Strategies have to implement a method `populate` and it must retur
 
 Let's say we want to just disable bomb detonation, we can add a strategy pattern called `GodGameModeStrategy` that will essentially always allow us to win because we can't lose. Actually, this already exists. Please refer to `Fun Features` section
 
-## Running tests
+## Running Tests
 ```bash
 $ rspec
 ```
 
-## Running the linter
+## Running the Linter
 ```bash
 $ rubocop src/ --auto-correct
+```
+
+## Easy Copypasta
+
+For irb console:
+
+```irb
+load './src/minesweeper.rb'; 
+game = Minesweeper.new(10, :easy); game.display_with_map_hack
+game = Minesweeper.new(10, :medium); game.display_with_map_hack
+game = Minesweeper.new(10, :hard); game.display_with_map_hack
+
+game = Minesweeper.new(10, :easy, :simple); game.display_with_map_hack
+game = Minesweeper.new(10, :easy, :normal); game.display_with_map_hack
+
+game = Minesweeper.new(10, :hard, :god); game.display_with_map_hack
 ```
 
 ## TODO 
