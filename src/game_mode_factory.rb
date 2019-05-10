@@ -20,6 +20,8 @@ class GameModeFactory
 
   def get_strategy
     case game_mode
+    when :simple
+      @game_mode_strategy = SimpleGameModeStrategy.new(board)
     when :normal
       @game_mode_strategy = NormalGameModeStrategy.new(board)
     when :god
