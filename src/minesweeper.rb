@@ -36,7 +36,8 @@ class Minesweeper
     set_game_mode_strategy(game_mode)
   end
 
-  def attempt(x, y)
+  def attempt(y, x)
+    # Feels more natural to have the arguments inverted.
     game_mode_strategy.attempt(x, y)
     display
   rescue FoundBomb    
