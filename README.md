@@ -38,7 +38,7 @@ irb(main) > load './src/minesweeper.rb'
 irb(main) > game = Minesweeper.new(10, :easy)
 ```
 
-![dagumak's Minesweeper](images/different-difficulties-minesweeper.png)
+![Difficulties Example](images/different-difficulties-minesweeper.png)
 
 
 ### Selecting a Game Mode
@@ -60,6 +60,9 @@ You're legendary, a god. Bombs don't affect you.
 irb(main) > load './src/minesweeper.rb'
 irb(main) > game = Minesweeper.new(10, :easy, :simple)
 ```
+
+![Simple Game Mode](images/simple-game-mode.png)
+![Normal Game Mode](images/normal-game-mode.png)
 
 ## Fun Features
 
