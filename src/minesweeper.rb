@@ -54,7 +54,7 @@ class Minesweeper
         when Board::BOMB
           '💣'
         when 0
-          ' '.light_black
+          '0'.light_black
         when 1
           value.to_s.light_yellow
         else
