@@ -1,3 +1,5 @@
+# This strategy is a basic example of manually placing bombs.
+# It populates bombs placed to form DMAK.
 class DagumakBoardPopulatorStrategy
   attr_accessor :board
 
@@ -5,6 +7,7 @@ class DagumakBoardPopulatorStrategy
     @board = board
   end
 
+  # rubocop:disable Metrics/MethodLength
   def populate
     raise BoardAlreadyPopulated if board.bombs?
     raise BoardDimensionTooSmall if board.cell_count < 154
@@ -41,7 +44,7 @@ class DagumakBoardPopulatorStrategy
     board.set_cell_as_bomb(3, 8)
     board.set_cell_as_bomb(2, 9)
 
-    # A 
+    # A
     board.set_cell_as_bomb(2, 12)
     board.set_cell_as_bomb(3, 12)
     board.set_cell_as_bomb(4, 12)
@@ -73,6 +76,7 @@ class DagumakBoardPopulatorStrategy
     board.populate_adjacent_numbers
     board
   end
+  # rubocop:enable Metrics/MethodLength
 end
 
 class BoardAlreadyPopulated < StandardError; end

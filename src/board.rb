@@ -1,8 +1,8 @@
-# This class is for managing the Minesweeper matrix itself. It understands how to
-# populate all the `bomb-adjacent-numbers`, but does not know where to places
-# the bombs; it knows how to surround bombs with numbers, but does not know where
-# to places the actual bombs itself. It relies on `BoardPopulatorFactory` for bomb
-# placement.
+# This class is for managing the Minesweeper matrix itself. It understands how
+# to populate all the `bomb-adjacent-numbers`, but does not know where to places
+# the bombs; it knows how to surround bombs with numbers, but does not know
+# where to places the actual bombs itself. It relies on `BoardPopulatorFactory`
+# for bomb placement.
 #
 # There are 2 matrices: Data and View
 # The data one is where all the adjacent numbers and bombs reside whereas the
@@ -38,7 +38,9 @@ class Board
   end
 
   def unseen_cell_count
-    view_matrix.reduce(0) { |sum, row| sum + row.select { |item| item == NOT_SEEN }.count }
+    view_matrix.reduce(0) do |sum, row|
+      sum + row.select { |item| item == NOT_SEEN }.count
+    end
   end
 
   def cell_value(i_index, j_index)
@@ -81,7 +83,9 @@ class Board
   end
 
   def bomb_count
-    data_matrix.reduce(0) { |sum, row| sum + row.select { |item| item == BOMB }.count }
+    data_matrix.reduce(0) do |sum, row|
+      sum + row.select { |item| item == BOMB }.count
+    end
   end
 
   def populate_adjacent_numbers
@@ -117,7 +121,6 @@ class Board
   #           j_index+1
 
   # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
   def adjacent_cells(i_index, j_index)
     return [] if out_of_bounds?(i_index, j_index)
 
@@ -137,7 +140,6 @@ class Board
     end
   end
   # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/AbcSize
 
   private
 

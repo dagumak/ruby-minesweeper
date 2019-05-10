@@ -1,3 +1,5 @@
+# This strategy is the base used for easy, hard, and medium.
+# It knows how to randomly populate bombs within bounds.
 class BaseBoardPopulatorStrategy
   attr_accessor :board
 

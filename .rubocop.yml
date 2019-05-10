@@ -1,1 +1,7 @@
 require: rubocop-performance
+
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false

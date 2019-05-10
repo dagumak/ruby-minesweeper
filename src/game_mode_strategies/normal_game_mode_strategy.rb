@@ -1,7 +1,7 @@
 require 'colorize'
 
 # Normal Game Mode
-# This version will reveal all neighboring empty cells until they find a number 
+# This version will reveal all neighboring empty cells until they find a number
 # when an empty cell is selected.
 class NormalGameModeStrategy
   attr_accessor :board
@@ -22,21 +22,19 @@ class NormalGameModeStrategy
 
   def process_pair(index_pair)
     board.mark_as_seen!(*index_pair)
-    
-    if board.cell_a_bomb?(*index_pair)
-      raise FoundBomb
-    end
+
+    raise FoundBomb if board.cell_a_bomb?(*index_pair)
 
     cell_value = board.cell_value(*index_pair)
-    if cell_value.zero?
-      board.adjacent_cells(*index_pair).each do |pair|
-        stack.push(pair) if board.not_seen?(*pair)
-      end
+    return unless cell_value.zero?
+
+    board.adjacent_cells(*index_pair).each do |pair|
+      stack.push(pair) if board.not_seen?(*pair)
     end
   end
 
-  # We have to convert "coordinates" to "indices". Board Class takes everything as
-  # an index and starts from zero.
+  # We have to convert "coordinates" to "indices". Board Class takes everything
+  # as an index and starts from zero.
   def coordinates_to_indices(x, y)
     [x - 1, y - 1]
   end

@@ -14,11 +14,12 @@ class SimpleGameModeStrategy
     pair = coordinates_to_indices(x, y)
     board.mark_as_seen!(*pair)
     raise FoundBomb if board.cell_a_bomb?(*pair)
+
     board.cell_value(*pair)
   end
 
-  # We have to convert "coordinates" to "indices". Board Class takes everything as
-  # an index and starts from zero.
+  # We have to convert "coordinates" to "indices". Board Class takes everything
+  # as an index and starts from zero.
   def coordinates_to_indices(x, y)
     [x - 1, y - 1]
   end

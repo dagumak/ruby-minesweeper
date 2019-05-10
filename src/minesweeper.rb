@@ -35,24 +35,28 @@ class Minesweeper
     game_mode = GameModeFactory::DEFAULT_MODE
   )
     create_board(board_size, difficulty_level)
-    set_game_mode_strategy(game_mode)
+    @game_mode_strategy = GameModeFactory.new(board, game_mode).strategy
   end
 
-  # Feels more natural to have the arguments inverted. 
+  # Feels more natural to have the arguments inverted.
+  # rubocop:disable Metrics/MethodLength
   def attempt(y, x)
-    return status unless self.in_progress?
+    return status unless in_progress?
+
     game_mode_strategy.attempt(x, y)
     display
-    self.win! if game_mode_strategy.won?
+    win! if game_mode_strategy.won?
     status
-  rescue FoundBomb    
-    self.lose!
+  rescue FoundBomb
+    lose!
     display
     status
   rescue OutOfBoardBounds
     puts 'Invalid coordinate!'
   end
+  # rubocop:enable Metrics/MethodLength
 
+  # rubocop:disable Metrics/MethodLength
   def display(matrix = board.view_matrix)
     matrix.each do |row|
       formatted_row_data = row.collect do |value|
@@ -73,17 +77,18 @@ class Minesweeper
     end
     nil
   end
+  # rubocop:enable Metrics/MethodLength
 
   def display_with_map_hack
     display(board.data_matrix)
   end
 
   def status
-    case self.aasm.current_state
+    case aasm.current_state
     when :loss
-      puts "Game over! Better luck next time!".red
+      puts 'Game over! Better luck next time!'.red
     when :victory
-      puts "Congratualations! You won!".green
+      puts 'Congratualations! You won!'.green
     when :in_progress
       puts "Game isn't over yet, make your move!".yellow
     end
@@ -94,11 +99,7 @@ class Minesweeper
   def create_board(board_size, difficulty_level)
     empty_board = Board.new(board_size, board_size)
     board_populator = BoardPopulatorFactory.new(empty_board)
-    strategy = board_populator.get_strategy_by_difficulty_level(difficulty_level)
+    strategy = board_populator.strategy_by_difficulty_level(difficulty_level)
     @board = strategy.populate
-  end
-
-  def set_game_mode_strategy(game_mode)
-    @game_mode_strategy = GameModeFactory.new(board, game_mode).get_strategy
   end
 end

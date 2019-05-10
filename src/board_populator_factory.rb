@@ -14,7 +14,8 @@ class BoardPopulatorFactory
     @board = board
   end
 
-  def get_strategy_by_difficulty_level(
+  # rubocop:disable Metrics/MethodLength
+  def strategy_by_difficulty_level(
     difficulty_level = DEFAULT_DIFFICULTY_LEVEL
   )
     case difficulty_level
@@ -30,6 +31,7 @@ class BoardPopulatorFactory
       raise UnknownDifficultyLevel
     end
   end
+  # rubocop:enable Metrics/MethodLength
 end
 
 class UnknownDifficultyLevel < StandardError; end

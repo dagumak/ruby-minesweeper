@@ -8,17 +8,17 @@ RSpec.describe BoardPopulatorFactory do
     let(:board_populator) { BoardPopulatorFactory.new(board) }
 
     it 'should return use the easy strategy to populate the board' do
-      strategy = board_populator.get_strategy_by_difficulty_level(:easy)
+      strategy = board_populator.strategy_by_difficulty_level(:easy)
       expect(strategy).to be_an_instance_of(EasyBoardPopulatorStrategy)
     end
 
     it 'should return use the medium strategy to populate the board' do
-      strategy = board_populator.get_strategy_by_difficulty_level(:medium)
+      strategy = board_populator.strategy_by_difficulty_level(:medium)
       expect(strategy).to be_an_instance_of(MediumBoardPopulatorStrategy)
     end
 
     it 'should return use the hard strategy to populate the board' do
-      strategy = board_populator.get_strategy_by_difficulty_level(:hard)
+      strategy = board_populator.strategy_by_difficulty_level(:hard)
       expect(strategy).to be_an_instance_of(HardBoardPopulatorStrategy)
     end
   end
