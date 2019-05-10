@@ -21,7 +21,6 @@ class BaseBoardPopulatorStrategy
     end
 
     board.populate_adjacent_numbers
-
     board
   end
 end
