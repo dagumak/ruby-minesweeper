@@ -15,13 +15,26 @@ class Board
   attr_accessor :y_dimension
 
   BOMB = :bomb
+  NOT_SEEN = :not_seen
   DEFAULT_CELL_VALUE = 0
 
   def initialize(x_dimension, y_dimension)
     @x_dimension = x_dimension
     @y_dimension = y_dimension
     @data_matrix = create_empty_matrix
-    @view_matrix = create_empty_matrix
+    @view_matrix = create_empty_matrix(NOT_SEEN)
+  end
+
+  def mark_as_seen!(i_index, j_index)
+    raise OutOfBoardBounds if out_of_bounds?(i_index, j_index)
+
+    view_matrix[i_index][j_index] = cell_value(i_index, j_index)
+  end
+
+  def not_seen?(i_index, j_index)
+    raise OutOfBoardBounds if out_of_bounds?(i_index, j_index)
+
+    view_matrix[i_index][j_index] == NOT_SEEN
   end
 
   def cell_value(i_index, j_index)
@@ -37,9 +50,9 @@ class Board
     !(data_matrix[i_index] && data_matrix[i_index][j_index])
   end
 
-  def create_empty_matrix
-    Array.new(x_dimension, DEFAULT_CELL_VALUE) do
-      Array.new(y_dimension, DEFAULT_CELL_VALUE)
+  def create_empty_matrix(default_value = DEFAULT_CELL_VALUE)
+    Array.new(x_dimension, default_value) do
+      Array.new(y_dimension, default_value)
     end
   end
 
@@ -69,17 +82,19 @@ class Board
 
   def populate_adjacent_numbers
     data_matrix.each_with_index do |row, i_index|
-      row.each_with_index do |cell_value, j_index|
-        next if out_of_bounds?(i_index, j_index)
-        next unless cell_a_bomb?(i_index, j_index)
-
-        adjacent_cells(i_index, j_index).each do |pair|
-          i_index, j_index = pair
-          next if cell_a_bomb?(i_index, j_index)
-
-          increase_adjacent_cells_count(i_index, j_index)
-        end
+      row.each_with_index do |_cell_value, j_index|
+        populate_adjacent_cells_for_bomb(i_index, j_index)
       end
+    end
+  end
+
+  def populate_adjacent_cells_for_bomb(i_index, j_index)
+    return unless cell_a_bomb?(i_index, j_index)
+
+    adjacent_cells(i_index, j_index).each do |pair|
+      next if cell_a_bomb?(*pair)
+
+      increase_adjacent_cells_count(*pair)
     end
   end
 
