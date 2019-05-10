@@ -120,7 +120,7 @@ class Board
   private
 
   def increase_adjacent_cells_count(i_index, j_index)
-    data_matrix[i_index][j_index] = data_matrix[i_index][j_index] + 1
+    data_matrix[i_index][j_index] += 1
   end
 end
 
