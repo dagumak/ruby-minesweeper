@@ -20,19 +20,17 @@ class NormalGameModeStrategy
   end
 
   def process_pair(index_pair)
-    i_index, j_index = index_pair
-    board.mark_as_seen!(i_index, j_index)
+    board.mark_as_seen!(*index_pair)
     
-    if board.cell_a_bomb?(i_index, j_index)
+    if board.cell_a_bomb?(*index_pair)
       puts 'BOOOOM!' 
       raise FoundBomb
     end
 
-    cell_value = board.cell_value(i_index, j_index)
+    cell_value = board.cell_value(*index_pair)
     if cell_value.zero?
-      board.adjacent_cells(i_index, j_index).each do |pair|
-        i_index, j_index = pair
-        stack.push(pair) if board.not_seen?(i_index, j_index)
+      board.adjacent_cells(*index_pair).each do |pair|
+        stack.push(pair) if board.not_seen?(*pair)
       end
     end
   end
