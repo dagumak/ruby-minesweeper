@@ -1,25 +1,19 @@
-# God Game Mode Engine
-# This version will disable bomb detonations eventually allowing you to always win.
-class GodGameModeStrategy
-  attr_accessor :board
+require "#{__dir__}/normal_game_mode_strategy"
 
-  def initialize(board)
-    @board = board
-  end
+# God Game Mode
+# You are a god. Bombs don't touch you.
+class GodGameModeStrategy < NormalGameModeStrategy
 
-  def attempt(x, y); end
+  def process_pair(index_pair)
+    board.mark_as_seen!(*index_pair)
+    
+    return puts 'Silly Bombs 😂😂😂😂' if board.cell_a_bomb?(*index_pair)
 
-  def get_adjacent_mine_count(_x, _y)
-    if revealed
-      nil
-    elsif bomb
-      reveal self
-    elsif empty
-      reveal all neighbors
-      push neighbors onto stack
-    elsif number
-      reveal self
-      nil
+    cell_value = board.cell_value(*index_pair)
+    if cell_value.zero?
+      board.adjacent_cells(*index_pair).each do |pair|
+        stack.push(pair) if board.not_seen?(*pair)
+      end
     end
   end
 end
