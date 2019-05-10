@@ -24,6 +24,8 @@ class BoardPopulatorFactory
       MediumBoardPopulatorStrategy.new(board)
     when :hard
       HardBoardPopulatorStrategy.new(board)
+    when :dagumak
+      DagumakBoardPopulatorStrategy.new(board)
     else
       raise UnknownDifficultyLevel
     end
